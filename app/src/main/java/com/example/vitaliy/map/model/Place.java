@@ -1,4 +1,7 @@
+
 package com.example.vitaliy.map.model;
+
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +16,7 @@ public class Place {
     private String site;
     @SerializedName("detail")
     @Expose
-    private List<Detail> detail = null;
+    private List<Detail> detail;
 
     public String getName() {
         return name;

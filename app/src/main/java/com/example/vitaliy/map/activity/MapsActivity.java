@@ -44,8 +44,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.vitaliy.map.R.layout.activity_maps;
 
@@ -61,6 +59,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
     KmlLayer layer;
+    public String location;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +68,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(activity_maps);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Detail> call = apiService.CathcDetail("locaion");
-        call.enqueue(new Callback<Detail>() {
+        Call<Place> call = apiService.CathcDetail(location);
+        call.enqueue(new Callback<Place>() {
             @Override
-            public void onResponse(Call<Detail> call, Response<Detail> response) {
-                Log.d("nice", toString().toString());
+            public void onResponse(Call<Place> call, Response<Place> response) {
+                List<Detail> places = response.body().getDetail();
+                Log.d("Nice", toString().toString());
             }
 
             @Override
-            public void onFailure(Call<Detail> call, Throwable t) {
-                Log.d("BAD", t.toString());
+            public void onFailure(Call<Place> call, Throwable t) {
+                Log.d("Bad", t.toString());
             }
         });
 

@@ -2,6 +2,7 @@ package com.example.vitaliy.map.rest;
 
 
 import com.example.vitaliy.map.model.Detail;
+import com.example.vitaliy.map.model.Place;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
     @GET("/service.php")
-    Call<Detail> CathcDetail (@Query("location") String location);
+    Call<Place> CathcDetail (@Query("location") String location);
 }
