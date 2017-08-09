@@ -1,4 +1,3 @@
-
 package com.example.vitaliy.map.model;
 
 import com.google.gson.annotations.Expose;

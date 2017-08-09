@@ -7,10 +7,11 @@
 
     <EditText
         android:id="@+id/TF_location"
-        android:layout_width="300dp"
+        android:layout_width="@dimen/SearchFieldValue"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:layout_above="@+id/map"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/B_search" />
 
@@ -18,19 +19,18 @@
         android:id="@+id/B_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/TF_location"
-        android:layout_alignBottom="@+id/TF_location"
+        android:layout_above="@+id/map"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="11dp"
         android:onClick="onClick"
-        android:text="search" />
+        android:text="@string/Search" />
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
-        tools:context="com.example.vitaliy.map.activity.MapsActivity"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="@dimen/layoutHeight"
+        android:layout_alignParentBottom="true"
+        tools:context="com.example.vitaliy.map.activity.MapsActivity" />
 
 </RelativeLayout>
