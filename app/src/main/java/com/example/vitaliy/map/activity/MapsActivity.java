@@ -54,7 +54,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener {
 
     public static final int REQUEST_LOCATION_CODE = 99;
-    KmlLayer layer;
+    private KmlLayer layer;
+    private double lat, lng;
     String location;
     String name;
     private GoogleMap mMap;
@@ -185,6 +186,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
+        }
+
+        try{
+            layer = new KmlLayer(mMap, R.raw.lviv_b, this);
+            layer.addLayerToMap();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (XmlPullParserException e){
+         e.printStackTrace();
         }
     }
 
