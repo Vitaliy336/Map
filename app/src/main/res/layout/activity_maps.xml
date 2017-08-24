@@ -1,20 +1,17 @@
-<RelativeLayout
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    tools:context="com.example.vitaliy.map.activity.MapsActivity">
 
     <EditText
         android:id="@+id/TF_location"
-        android:layout_width="@dimen/SearchFieldValue"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_above="@+id/map"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/B_search"
-        tools:ignore="LabelFor" />
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@android:color/background_light"
+        android:shadowColor="@android:color/background_light" />
 
     <Button
         android:id="@+id/B_search"
@@ -26,12 +23,47 @@
         android:onClick="onClick"
         android:text="@string/Search" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/layoutHeight"
-        android:layout_alignParentBottom="true"
-        tools:context="com.example.vitaliy.map.activity.MapsActivity" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/myLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@android:drawable/ic_menu_mylocation"
+         />
 
-</RelativeLayout>
+    <com.sa90.materialarcmenu.ArcMenu
+        android:id="@+id/arcmenu_android_example_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_alignParentBottom="false">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_info" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_alert" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_email" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@android:drawable/ic_dialog_map" />
+
+    </com.sa90.materialarcmenu.ArcMenu>
+</fragment>

@@ -1,20 +1,25 @@
 package com.example.vitaliy.map.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.vitaliy.map.R;
@@ -27,6 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +42,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.kml.KmlLayer;
+import com.sa90.materialarcmenu.ArcMenu;
+import com.sa90.materialarcmenu.StateChangeListener;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -59,15 +67,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String location;
     String name;
     private GoogleMap mMap;
+    View mapView;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentLocationMarker;
+    ArcMenu arcMenuAndroid;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(activity_maps);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.myLocationButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) throws SecurityException {
+                LocationManager locationManager =
+                        (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                Location selfLocation = locationManager
+                        .getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+                LatLng selfLoc = new LatLng(selfLocation.getLatitude(), selfLocation.getLongitude());
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(selfLoc, 15);
+                mMap.moveCamera(update);
+            }
+        });
+        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
+        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
+            @Override
+            public void onMenuOpened() {
+                //TODO something when menu is opened
+            }
+            @Override
+            public void onMenuClosed() {
+                //TODO something when menu is closed
+            }
+        });
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<List<Place>> call = apiService.CathcDetail(location, name);
@@ -75,10 +112,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
                 List<Place> list = response.body();
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println("nice " + list.get(i));
-                }
-                Log.d("Nice", toString().toString());
             }
 
             @Override
@@ -124,7 +157,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -155,7 +190,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Address myAdress = addresses.get(i);
                     LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
                     mo.position(latlng);
-                    mo.title("title");
+                    mo.title(location);
                     mMap.addMarker(mo);
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
 
@@ -182,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationMarker = mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(7));
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
