@@ -48,12 +48,14 @@ import com.sa90.materialarcmenu.StateChangeListener;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -79,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(activity_maps);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.myLocationButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,29 +97,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(update);
             }
         });
-        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
-        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
-            @Override
-            public void onMenuOpened() {
-                //TODO something when menu is opened
-            }
-            @Override
-            public void onMenuClosed() {
-                //TODO something when menu is closed
-            }
-        });
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<List<Place>> call = apiService.CathcDetail(location, name);
         call.enqueue(new Callback<List<Place>>() {
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
-                List<Place> list = response.body();
+                List<Place> places = response.body();
+                for(int i =0; i< places.size(); i++){
+                    String[] ls;
+                    ls=places.get(i).getDetail().get(0).getLocation().split(", ");
+                    for(int j=0; j<2; j++){
+                        double lat = Double.parseDouble(ls[0]);
+                        double lud = Double.parseDouble(ls[1]);
+
+                        mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(lat,lud))
+                        .title(places.get(i).getName())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
-                Log.d("Bad", t.toString());
+                Log.d("Responce Fail", t.toString());
             }
         });
 
@@ -159,6 +164,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
+        final FloatingActionButton fab1 = (FloatingActionButton)findViewById(R.id.fab_arc_menu_1);
+        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
+        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
+            @Override
+            public void onMenuOpened() {
+                //TODO something when menu is opened
+                fab1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+
+            }
+            @Override
+            public void onMenuClosed() {
+                //TODO something when menu is closed
+            }
+        });
+
+        try {
+            layer = new KmlLayer(mMap, R.raw.lviv_b, this);
+            layer.addLayerToMap();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -211,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(LatLng);
-        markerOptions.title("Current location");
+        markerOptions.title("You here");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         currentLocationMarker = mMap.addMarker(markerOptions);
@@ -221,17 +256,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
-        }
-
-        try{
-            layer = new KmlLayer(mMap, R.raw.lviv_b, this);
-            layer.addLayerToMap();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (XmlPullParserException e){
-         e.printStackTrace();
         }
     }
 
