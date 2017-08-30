@@ -12,14 +12,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.vitaliy.map.R;
@@ -48,14 +46,12 @@ import com.sa90.materialarcmenu.StateChangeListener;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -64,23 +60,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener {
 
     public static final int REQUEST_LOCATION_CODE = 99;
-    private KmlLayer layer;
-    private double lat, lng;
     String location;
     String name;
-    private GoogleMap mMap;
     View mapView;
+    ArcMenu arcMenuAndroid;
+    private KmlLayer layer;
+    private double lat, lng;
+    private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentLocationMarker;
-    ArcMenu arcMenuAndroid;
-
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_maps);
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<Place>> call = apiService.CathcDetail(location, name);
+        call.enqueue(new Callback<List<Place>>() {
+            @Override
+            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
+                List<Place> respondList = response.body();
+                MarkersFromJSON(respondList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
+                Log.d("Responce Fail", t.toString());
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.myLocationButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,30 +108,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<Place>> call = apiService.CathcDetail(location, name);
-        call.enqueue(new Callback<List<Place>>() {
-            @Override
-            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
-                List<Place> places = response.body();
-                for(int i =0; i< places.size(); i++){
-                    String[] ls;
-                    ls=places.get(i).getDetail().get(0).getLocation().split(", ");
-                    for(int j=0; j<2; j++){
-                        double lat = Double.parseDouble(ls[0]);
-                        double lud = Double.parseDouble(ls[1]);
+        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
+        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
 
-                        mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat,lud))
-                        .title(places.get(i).getName())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    }
-                }
+            @Override
+            public void onMenuOpened() {
+                //TODO something when menu is opened
             }
 
             @Override
-            public void onFailure(Call<List<Place>> call, Throwable t) {
-                Log.d("Responce Fail", t.toString());
+            public void onMenuClosed() {
+                //TODO something when menu is closed
             }
         });
 
@@ -134,6 +131,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void MarkersFromJSON(List<Place> places) {
+        for (int i = 0; i < places.size(); i++) {
+            String[] ls;
+            ls = places.get(i).getDetail().get(0).getLocation().split(", ");
+            for (int j = 0; j < 2; j++) {
+
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
+                        .title(places.get(i).getName())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            }
+        }
+
     }
 
     @Override
@@ -164,26 +176,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
-        final FloatingActionButton fab1 = (FloatingActionButton)findViewById(R.id.fab_arc_menu_1);
-        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
-        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
-            @Override
-            public void onMenuOpened() {
-                //TODO something when menu is opened
-                fab1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
-
-
-            }
-            @Override
-            public void onMenuClosed() {
-                //TODO something when menu is closed
-            }
-        });
 
         try {
             layer = new KmlLayer(mMap, R.raw.lviv_b, this);
