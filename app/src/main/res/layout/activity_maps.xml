@@ -6,24 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.vitaliy.map.activity.MapsActivity">
 
-    <EditText
-        android:id="@+id/TF_location"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:background="@android:color/background_light"
-        android:shadowColor="@android:color/background_light" />
-
-    <ImageButton
-        android:id="@+id/B_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="5dp"
-        android:onClick="onClick"
-        android:src="@mipmap/ic_launcher_round"
-        android:text="Button" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/myLocationButton"
         android:layout_width="wrap_content"
@@ -65,6 +47,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:src="@android:drawable/ic_dialog_map" />
-
     </com.sa90.materialarcmenu.ArcMenu>
+
+    <SearchView
+        android:id="@+id/simpleSearchView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Here" />
 </fragment>

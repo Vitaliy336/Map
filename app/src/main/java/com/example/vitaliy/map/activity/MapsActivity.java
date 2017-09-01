@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.vitaliy.map.R;
@@ -71,12 +72,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentLocationMarker;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_maps);
 
+        //Rest
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<List<Place>> call = apiService.CathcDetail(location, name);
         call.enqueue(new Callback<List<Place>>() {
@@ -92,6 +95,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //Search Address
+        final SearchView searchView = (SearchView)findViewById(R.id.simpleSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                List<Address> addresses = null;
+                MarkerOptions mo = new MarkerOptions();
+                if (!s.equals("")) {
+                    Geocoder geocoder = new Geocoder(getBaseContext());
+                    try {
+                        addresses = geocoder.getFromLocationName(s, 5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < addresses.size(); i++) {
+                        Address myAdress = addresses.get(i);
+                        LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
+                        mo.position(latlng);
+                        mo.title(s);
+                        mMap.addMarker(mo);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
+                    }
+                }
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+
+        //Current location fab
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.myLocationButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //Fab Menu
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
         arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
 
@@ -133,6 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    // Markers from JSON
     private void MarkersFromJSON(List<Place> places) {
         for (int i = 0; i < places.size(); i++) {
             String[] ls;
@@ -145,7 +185,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
             }
         }
-
     }
 
     @Override
@@ -175,6 +214,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mMap.getUiSettings().setCompassEnabled(false);
         }
 
         try {
@@ -197,33 +237,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .build();
 
         client.connect();
-    }
-
-    public void onClick(View v) {
-        if (v.getId() == R.id.B_search) {
-            EditText tf_location = (EditText) findViewById(R.id.TF_location);
-            String location = tf_location.getText().toString();
-            List<Address> addresses = null;
-            MarkerOptions mo = new MarkerOptions();
-
-            if (!location.equals("")) {
-                Geocoder geocoder = new Geocoder(this);
-                try {
-                    addresses = geocoder.getFromLocationName(location, 5);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                for (int i = 0; i < addresses.size(); i++) {
-                    Address myAdress = addresses.get(i);
-                    LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
-                    mo.position(latlng);
-                    mo.title(location);
-                    mMap.addMarker(mo);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-
-                }
-            }
-        }
     }
 
     @Override
