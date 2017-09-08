@@ -1,4 +1,5 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -11,52 +12,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="@dimen/fabMargin"
+        android:layout_marginRight="@dimen/fabMargin"
         android:src="@android:drawable/ic_menu_mylocation"
-         />
+        app:backgroundTint="#FFFFFF" />
 
     <com.sa90.materialarcmenu.ArcMenu
         android:id="@+id/arcmenu_android_example_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
         android:layout_gravity="bottom|right"
-        android:layout_alignParentBottom="false">
+        app:menu_scr="@android:drawable/ic_menu_more"
+        app:menu_color="@color/colorGreen"
+        app:fabSize="mini">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_arc_menu_1"
+            android:id="@+id/fab_arc_menu_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_info" />
+            android:src="@android:drawable/ic_dialog_info"
+            app:backgroundTint="@color/colorGreen" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_alert" />
+            android:background="@android:color/holo_green_light"
+            android:src="@android:drawable/ic_dialog_alert"
+            app:backgroundTint="@color/colorGreen"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_arc_menu_3"
+            android:id="@+id/fab_arc_menu_Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_email" />
+            android:src="@android:drawable/ic_dialog_email"
+            app:backgroundTint="@color/colorGreen"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_arc_menu_4"
+            android:id="@+id/fab_arc_menu_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@android:drawable/ic_dialog_map" />
+            android:layout_margin="@dimen/fMapd"
+            android:src="@android:drawable/ic_dialog_map"
+            app:backgroundTint="@color/colorGreen" />
     </com.sa90.materialarcmenu.ArcMenu>
 
     <SearchView
         android:id="@+id/simpleSearchView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginLeft="18dp"
+        android:layout_marginLeft="@dimen/SVMargin"
+        android:layout_marginRight="@dimen/SVMargin"
+        android:layout_marginTop="@dimen/SVMargin"
         android:background="@color/common_google_signin_btn_text_dark_default"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Here" />
+        android:queryHint="Search Here"
+        tools:queryHint="@string/SearchHere" />
 </fragment>

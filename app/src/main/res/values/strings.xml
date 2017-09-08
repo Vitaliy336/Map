@@ -2,4 +2,12 @@
     <string name="app_name">Map</string>
     <string name="title_activity_maps">Map</string>
     <string name="Search">Search</string>
+    <string name="SearchHere">SerchHere</string>
+
+    <string-array name="MarkerList">
+        <item>Parking spots</item>
+        <item>Bikes rentails</item>
+        <item>NextBike Stations</item>
+        <item>Bike workshops and repair</item>
+    </string-array>
 </resources>

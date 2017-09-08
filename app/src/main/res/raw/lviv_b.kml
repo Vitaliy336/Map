@@ -1168,9 +1168,9 @@
       </Pair>
     </StyleMap>
     <Folder>
-      <name>Bike Rentals | Велопрокати</name>
+      <name>Rental</name>
       <Placemark>
-        <name>Rental - ProfiRider</name>
+        <name>Rental</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
@@ -1179,7 +1179,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Veliki.ua Svobody ave.</name>
+        <name>Rental</name>
         <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/cH_4HV11I5Ck4PYjP3QmfQRXrJKHoO7SyPyjA8hBcdjXGJRPzybDlZDiPk30bdWSIIOn0HBicQB47fvuEP0eidCWb_lDvVFjY03Y-w" height="200" width="auto" /><br><br>Address: Svobody ave.]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -1194,7 +1194,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Veliki.ua Rynok sq.
+        <name>Rental
 </name>
         <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/ro327o3IAgz0d_6FuabyvarpRCOaoC5ZKwHU_LH6ClzbdJXPpmW0uKTwLzDpP0Aqk6XdJOyfmJRDczUSAAApshIHJOLKTYbTLw" height="200" width="auto" /><br><br>Address: Rynok sq.]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
@@ -1210,7 +1210,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Перший міський велопрокат</name>
+        <name>Rental</name>
         <description><![CDATA[Address: Rynok sq., 16<br>Work hours: 9-22<br>Tel: +38(095)5712323, +38(097)5712323, +38(063)5712323]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1220,7 +1220,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Svobody ave. 35</name>
+        <name>Rental</name>
         <description>Пр.Свободи, 35</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1230,7 +1230,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Veliki.ua Striyskiy park</name>
+        <name>Rental</name>
         <description><![CDATA[Phone:       050 388 23 03 <br>Fri.-Sun. -   10:00-20:00; <br>Mon.-Thu.  15:00-20:00]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1240,7 +1240,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Veliki.ua main office</name>
+        <name>Rental</name>
         <description><![CDATA[<img src="https://lh3.googleusercontent.com/4CUZpRHDm8Ydb0902OyxCGbgvmQts78QUqnOdhRCqZx26qdYCRqTCwrfNfGo5JVjBs7vN6qe0QkOYdU3yKnxyLAI331qpTjLnP5TnDvOgkB176J20yiUNIoyShJMI8vw" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -1255,7 +1255,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Rental - Green Bike</name>
+        <name>Rental</name>
         <description><![CDATA[<img src="https://lh4.googleusercontent.com/OAcQ2Y0D5YaUsD8sU1sxHij1Fp0JI395g8C22J3vFJd04ee9rG5J8GlsfmqHIlThq1y_hKzNo42JzFDHQ_rZoej5aVCeeDXcrh0jj3XeAz8tZWO4Xx5g1EkWrStrveE" height="200" width="auto" /><br><br>Address: Kyrortna str.<br>Work hours: 10:00 - 18:00]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -1271,9 +1271,9 @@
       </Placemark>
     </Folder>
     <Folder>
-      <name>Public Bike Sharing System | Муніципальний велопрокат</name>
+      <name>Public Bike Sharing System</name>
       <Placemark>
-        <name>NextBike | Bandery st.</name>
+        <name>NextBike</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
@@ -1282,7 +1282,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | KingCross</name>
+        <name>NextBike</name>
         <description>Station number: 9152</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1292,7 +1292,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Bus station</name>
+        <name>NextBike</name>
         <description>Station number: 9136</description>
         <styleUrl>#icon-1419</styleUrl>
         <Point>
@@ -1302,7 +1302,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Chervonoyi Kalyny ave.</name>
+        <name>NextBike</name>
         <description>Station number: 9143</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1312,7 +1312,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Chervonoyi Kalyny ave.</name>
+        <name>NextBike</name>
         <description>Station number: 9144</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1322,7 +1322,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Chervonoyi Kalyny ave.</name>
+        <name>NextBike</name>
         <description>Station number: 9145</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1332,7 +1332,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Stryyska - Naukova str. </name>
+        <name>NextBike</name>
         <description>tation number: 9137</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1342,7 +1342,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Volodymyra Velykoho Str</name>
+        <name>NextBike</name>
         <description>Station number: 9138</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1352,7 +1352,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Knyahyni Olhy Aquapark</name>
+        <name>NextBike</name>
         <description>Station number: 9102</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1362,7 +1362,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | V.Velykoho str. 113</name>
+        <name>NextBike</name>
         <description>Station number: 9148</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1372,7 +1372,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | State tax office</name>
+        <name>NextBike</name>
         <description>Station number: 9139</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1382,7 +1382,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Ukrainian Catholic University</name>
+        <name>NextBike</name>
         <description>Station number: 9140</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1392,7 +1392,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | SoftServe office</name>
+        <name>NextBike</name>
         <description>Station number: 9149</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1402,7 +1402,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Lyubinska </name>
+        <name>NextBike</name>
         <description>Station number: 9151</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1412,7 +1412,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | TechnoPark</name>
+        <name>NextBike</name>
         <description>Station number: 9103</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1422,7 +1422,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Dominant Plaza Business Сenter </name>
+        <name>NextBike</name>
         <description>Station number: 9146</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1432,7 +1432,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Petrushevycha sq.1</name>
+        <name>NextBike</name>
         <description>Station number: 9141</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1442,7 +1442,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Ivan Franko Univercity</name>
+        <name>NextBike</name>
         <description>Station number: 9101</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1452,7 +1452,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Ratusha</name>
+        <name>NextBike</name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/t8iCM8Hzm2Q1_LGNfgzAXsLxi37Lfth1Zu0QuEYH_gwNOPFuQMVRPwkmvFrmMlPFz4Jzx_kiCUk1UXMzpSCU-4D6QEtFkFw_1IB-Ur7WewWGQsWcO4hnaoaZS425t48" height="200" width="auto" /><br><br>Station number: 9100]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -1467,7 +1467,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Forum Lviv </name>
+        <name>NextBike</name>
         <description>Station number: 9147</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1477,7 +1477,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name><![CDATA[NextBike | Chornovola / Lypyns'koho]]></name>
+        <name><![CDATA[NextBike]]></name>
         <description>Station number: 9105</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -1487,7 +1487,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>NextBike | Chornovola</name>
+        <name>NextBike</name>
         <description>Station number: 9106</description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <Point>
@@ -2480,7 +2480,7 @@
       </Placemark>
     </Folder>
     <Folder>
-      <name>Bicycle paths / Cycle lanes | Велодоріжки</name>
+      <name>Bicycle paths</name>
       <Placemark>
         <name><![CDATA[Kopernyka str.(<--)]]></name>
         <styleUrl>#line-009D57-4294-nodesc</styleUrl>
@@ -3599,7 +3599,7 @@
       </Placemark>
     </Folder>
     <Folder>
-      <name>Bike Parkings | Велопарковки</name>
+      <name>Bike Parkings</name>
       <Placemark>
         <name>P | LPNU, main building</name>
         <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/SYoW1Ks9hD6I8spcbJ5PaUHMdaYWX2L0Dkt01HONPDefxNWHdaC8suX1uW4f1fmSRjbLJvOrl2YqA8-_nU3XOLYLOtYEYd50zw" height="200" width="auto" /><br><br>Location: Lviv Polytechnic National University, main building (НУ "ЛП", головний корпус)<br>Address: Bandery str.<br>Bike rack q-ty (К-сть стійок): 6<br>Type (Тип): U-Rack (П-подібна)<br>Utility (Функціональність): High (Висока)]]></description>

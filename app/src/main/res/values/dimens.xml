@@ -2,4 +2,7 @@
 <resources>
     <dimen name="SearchFieldValue">300dp</dimen>
     <dimen name="layoutHeight">470dp</dimen>
+    <dimen name="SVMargin">18dp</dimen>
+    <dimen name="fabMargin">16dp</dimen>
+    <dimen name="fMapd">10dp</dimen>
 </resources>

@@ -2,6 +2,7 @@ package com.example.vitaliy.map.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,7 +18,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -40,19 +40,24 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.kml.KmlContainer;
+import com.google.maps.android.kml.KmlGeometry;
 import com.google.maps.android.kml.KmlLayer;
+import com.google.maps.android.kml.KmlPlacemark;
 import com.sa90.materialarcmenu.ArcMenu;
 import com.sa90.materialarcmenu.StateChangeListener;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -65,14 +70,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String name;
     View mapView;
     ArcMenu arcMenuAndroid;
+    SearchView searchView;
+    List<String> rental = new ArrayList<>();
+    List<String> nextBike = new ArrayList<>();
+    List<String> parking = new ArrayList<>();
     private KmlLayer layer;
-    private double lat, lng;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentLocationMarker;
-    SearchView searchView;
+    private List<Place> respondList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         call.enqueue(new Callback<List<Place>>() {
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
-                List<Place> respondList = response.body();
-                MarkersFromJSON(respondList);
+                respondList = response.body();;
             }
 
             @Override
@@ -96,16 +103,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         //Search Address
-        final SearchView searchView = (SearchView)findViewById(R.id.simpleSearchView);
+        final SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(String query) {
                 List<Address> addresses = null;
                 MarkerOptions mo = new MarkerOptions();
-                if (!s.equals("")) {
+                if (!query.equals("")) {
                     Geocoder geocoder = new Geocoder(getBaseContext());
                     try {
-                        addresses = geocoder.getFromLocationName(s, 5);
+                        addresses = geocoder.getFromLocationName(query, 5);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -113,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Address myAdress = addresses.get(i);
                         LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
                         mo.position(latlng);
-                        mo.title(s);
+                        mo.title(query);
                         mMap.addMarker(mo);
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
                     }
@@ -123,7 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public boolean onQueryTextChange(String query) {
                 return false;
             }
         });
@@ -141,18 +148,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
                 LatLng selfLoc = new LatLng(selfLocation.getLatitude(), selfLocation.getLongitude());
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(selfLoc, 15);
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(selfLoc, 14);
                 mMap.moveCamera(update);
             }
         });
 
         //Fab Menu
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
+        final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
         arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
 
             @Override
             public void onMenuOpened() {
                 //TODO something when menu is opened
+                fabEmail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent Email = new Intent(Intent.ACTION_SEND);
+                        Email.setType("text/email");
+                        Email.putExtra(Intent.EXTRA_EMAIL,
+                                new String[]{"vitaliyshevchyk336@gmail.com"});  //developer 's email
+                        Email.putExtra(Intent.EXTRA_SUBJECT,
+                                "Add your Subject"); // Email 's Subject
+                        Email.putExtra(Intent.EXTRA_TEXT, "Dear Vitaliy," + "");  //Email 's Greeting text
+                        startActivity(Intent.createChooser(Email, "Send Feedback:"));
+                    }
+                });
             }
 
             @Override
@@ -160,7 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //TODO something when menu is closed
             }
         });
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -207,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) throws ClassCastException {
         mMap = googleMap;
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -216,19 +236,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setCompassEnabled(false);
         }
-
         try {
-            layer = new KmlLayer(mMap, R.raw.lviv_b, this);
-            layer.addLayerToMap();
+            layer = new KmlLayer(mMap, R.raw.lviv_b, getApplicationContext());
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        for (KmlContainer c : layer.getContainers()) {
+            for (KmlContainer c1 : c.getContainers()) {
+                for (KmlPlacemark p : c1.getPlacemarks()) {
+                    if (p.getProperty("name").equals("Rental")) {
+                        KmlGeometry g = p.getGeometry();
+                        rental.add(g.getGeometryObject().toString());
+                    }else if (p.getProperty("name").equals("NextBike")) {
+                        KmlGeometry g = p.getGeometry();
+                        nextBike.add(g.getGeometryObject().toString());
+                    }else if (p.getProperty("name").equals("P")) {
+                        KmlGeometry g = p.getGeometry();
+                        parking.add(g.getGeometryObject().toString());
+                    }
+                }
+            }
+        }
+        Displayrental(rental);
+        DisplayNextBike(nextBike);
+        DisplayParking(parking);
     }
 
+    private void DisplayParking(List<String> parking) {
+        for (int i = 0; i < parking.size(); i++) {
+            String[] ls;
+            ls = parking.get(i).substring(10, parking.get(i).length() - 1).split(",");
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
+                    .title("ss")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        }
+    }
+
+    private void DisplayNextBike(List<String> nextBike) {
+        for (int i = 0; i < nextBike.size(); i++) {
+            String[] ls;
+            ls = nextBike.get(i).substring(10, nextBike.get(i).length() - 1).split(",");
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
+                    .title("ss")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+        }
+    }
+    private void Displayrental(List<String> rental) {
+        for (int i = 0; i < rental.size(); i++) {
+            String[] ls;
+            ls = rental.get(i).substring(10, rental.get(i).length() - 1).split(",");
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
+                    .title("ss")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
+    }
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -239,26 +305,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         client.connect();
     }
 
+
+
+
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-
         if (currentLocationMarker != null) {
             currentLocationMarker.remove();
         }
 
-        LatLng LatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
+        //Place current location marker
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(LatLng);
+        markerOptions.position(latLng);
         markerOptions.title("You here");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         currentLocationMarker = mMap.addMarker(markerOptions);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(7));
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
+        //stop location updates
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
