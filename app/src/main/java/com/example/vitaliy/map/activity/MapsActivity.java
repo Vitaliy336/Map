@@ -236,24 +236,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
         if(sharedPreferences.getBoolean("PS", false) == true){
-                                for(Marker m : mParking){
-                                    m.setVisible(true);
-                }
+            for(Marker m : mParking){
+                m.setVisible(true);
+            }
         }
         else if(sharedPreferences.getBoolean("PS", false) == false) {
             for (Marker m : mParking) {
                 m.setVisible(false);
             }
         }
-            if(sharedPreferences.getBoolean("NBS", false) == true){
-                for(Marker m : mNextBike){
-                    m.setVisible(true);
-                }
+        if(sharedPreferences.getBoolean("NBS", false) == true){
+            for(Marker m : mNextBike){
+                m.setVisible(true);
             }
-            else if(sharedPreferences.getBoolean("NBS", false) == false){
-                for(Marker m : mNextBike){
-                    m.setVisible(false);
-                }
+        }
+        else if(sharedPreferences.getBoolean("NBS", false) == false){
+            for(Marker m : mNextBike){
+                m.setVisible(false);
+            }
         }
         if(sharedPreferences.getBoolean("RP", false) == true){
             for(Marker m : mRental){
@@ -285,7 +285,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ls = places.get(i).getDetail().get(0).getLocation().split(", ");
             for (int j = 0; j < 2; j++) {
 
-               Marker marker= mMap.addMarker(new MarkerOptions()
+                Marker marker= mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                         .title(places.get(i).getName())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
