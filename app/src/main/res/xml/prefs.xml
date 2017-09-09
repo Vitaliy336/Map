@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:summary="Username and password information"
+        android:title="Settings" >
+        <CheckBoxPreference
+            android:key="SaR"
+            android:summary="On/Off"
+            android:title="Shops and repair places" />
+
+        <CheckBoxPreference
+            android:key="NBS"
+            android:summary="On/Off"
+            android:title="NextBike Spots" />
+
+        <CheckBoxPreference
+            android:key="RP"
+            android:summary="On/Off"
+            android:title="Rental Places" />
+
+        <CheckBoxPreference
+            android:key="PS"
+            android:summary="On/Off"
+            android:title="Parking Spots" />
+    </PreferenceCategory>
+</PreferenceScreen>
