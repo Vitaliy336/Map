@@ -1,7 +1,6 @@
 package com.example.vitaliy.map.activity;
 
 import android.Manifest;
-import android.preference.PreferenceManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,8 +20,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -58,14 +55,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -83,6 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<String> rental = new ArrayList<>();
     List<String> nextBike = new ArrayList<>();
     List<String> parking = new ArrayList<>();
+    List<Marker> mRental = new ArrayList<Marker>();
+    List<Marker> mNextBike = new ArrayList<Marker>();
+    List<Marker> mParking = new ArrayList<Marker>();
+    List<Marker> mShopsRepair = new ArrayList<Marker>();
     private List<Place> respondList;
     private KmlLayer layer;
     private GoogleMap mMap;
@@ -90,17 +88,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentLocationMarker;
-    List<Marker> mRental = new ArrayList<Marker>();
-    List<Marker> mNextBike = new ArrayList<Marker>();
-    List<Marker> mParking = new ArrayList<Marker>();
-    List<Marker> mShopsRepair = new ArrayList<Marker>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(activity_maps);ListView drawerLayout;
+        setContentView(activity_maps);
+        ListView drawerLayout;
 
         //Rest
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -196,7 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 fabMap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent  = new Intent(MapsActivity.this, PrefsActivity.class);
+                        Intent intent = new Intent(MapsActivity.this, PrefsActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -208,7 +201,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
             }
-
 
             @Override
             public void onMenuClosed() {
@@ -224,58 +216,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         PreferenceManager.setDefaultValues(this, prefs, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
-        if(sharedPreferences.getBoolean("PS", false) == true){
-            for(Marker m : mParking){
+        if (sharedPreferences.getBoolean("PS", false) == true) {
+            for (Marker m : mParking) {
                 m.setVisible(true);
             }
-        }
-        else if(sharedPreferences.getBoolean("PS", false) == false) {
+        } else {
             for (Marker m : mParking) {
                 m.setVisible(false);
             }
         }
-        if(sharedPreferences.getBoolean("NBS", false) == true){
-            for(Marker m : mNextBike){
+        if (sharedPreferences.getBoolean("NBS", false) == true) {
+            for (Marker m : mNextBike) {
                 m.setVisible(true);
             }
-        }
-        else if(sharedPreferences.getBoolean("NBS", false) == false){
-            for(Marker m : mNextBike){
+        } else {
+            for (Marker m : mNextBike) {
                 m.setVisible(false);
             }
         }
-        if(sharedPreferences.getBoolean("RP", false) == true){
-            for(Marker m : mRental){
+        if (sharedPreferences.getBoolean("RP", false) == true) {
+            for (Marker m : mRental) {
                 m.setVisible(true);
             }
-        }
-        else if(sharedPreferences.getBoolean("RP", false) == false){
-            for(Marker m : mRental){
+        } else {
+            for (Marker m : mRental) {
                 m.setVisible(false);
             }
         }
-        if(sharedPreferences.getBoolean("SaR", true) == true){
-            for(Marker m : mShopsRepair){
+        if (sharedPreferences.getBoolean("SaR", false) == true) {
+            for (Marker m : mShopsRepair) {
                 m.setVisible(true);
             }
-        }
-        else if(sharedPreferences.getBoolean("SaR", true) == false){
-            for(Marker m : mShopsRepair){
+        } else {
+            for (Marker m : mShopsRepair) {
                 m.setVisible(false);
             }
         }
-
     }
 
     // Markers from JSON
@@ -285,7 +270,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ls = places.get(i).getDetail().get(0).getLocation().split(", ");
             for (int j = 0; j < 2; j++) {
 
-                Marker marker= mMap.addMarker(new MarkerOptions()
+                Marker marker = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                         .title(places.get(i).getName())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
@@ -335,11 +320,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (KmlPlacemark p : c1.getPlacemarks()) {
                     if (p.getProperty("name").equals("Rental")) {
                         KmlGeometry g = p.getGeometry();
-                        rental.add(g.getGeometryObject().toString()  );
-                    }else if (p.getProperty("name").equals("NextBike")) {
+                        rental.add(g.getGeometryObject().toString());
+                    } else if (p.getProperty("name").equals("NextBike")) {
                         KmlGeometry g = p.getGeometry();
                         nextBike.add(g.getGeometryObject().toString());
-                    }else if (p.getProperty("name").equals("P")) {
+                    } else if (p.getProperty("name").equals("P")) {
                         KmlGeometry g = p.getGeometry();
                         parking.add(g.getGeometryObject().toString());
                     }
@@ -368,7 +353,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int i = 0; i < nextBike.size(); i++) {
             String[] ls;
             ls = nextBike.get(i).substring(10, nextBike.get(i).length() - 1).split(",");
-            Marker marker =  mMap.addMarker(new MarkerOptions()
+            Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                     .title("NextBike")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
@@ -376,6 +361,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mNextBike.add(marker);
         }
     }
+
     private void CreateRentalMarkers(List<String> rental) {
         for (int i = 0; i < rental.size(); i++) {
             String[] ls;
@@ -388,6 +374,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mRental.add(marker);
         }
     }
+
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -397,9 +384,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         client.connect();
     }
-
-
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -426,7 +410,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
@@ -452,7 +435,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
         }
     }
-
 
     @Override
     public void onConnectionSuspended(int i) {

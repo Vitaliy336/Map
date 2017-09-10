@@ -60,7 +60,7 @@
 
     <SearchView
         android:id="@+id/simpleSearchView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/SVMargin"
         android:layout_marginRight="@dimen/SVMargin"

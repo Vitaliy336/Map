@@ -6,21 +6,25 @@
         android:title="Settings" >
         <CheckBoxPreference
             android:key="SaR"
+            android:defaultValue="true"
             android:summary="On/Off"
             android:title="Shops and repair places" />
 
         <CheckBoxPreference
             android:key="NBS"
+            android:defaultValue="false"
             android:summary="On/Off"
             android:title="NextBike Spots" />
 
         <CheckBoxPreference
             android:key="RP"
+            android:defaultValue="false"
             android:summary="On/Off"
             android:title="Rental Places" />
 
         <CheckBoxPreference
             android:key="PS"
+            android:defaultValue="false"
             android:summary="On/Off"
             android:title="Parking Spots" />
     </PreferenceCategory>
