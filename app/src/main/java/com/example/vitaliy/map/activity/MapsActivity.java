@@ -20,7 +20,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -60,6 +59,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -93,23 +93,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_maps);
-        ListView drawerLayout;
 
         //Rest
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<Place>> call = apiService.CathcDetail(location, name);
-        call.enqueue(new Callback<List<Place>>() {
-            @Override
-            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
-                respondList = response.body();
-                MarkersFromJSON(respondList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Place>> call, Throwable t) {
-                Log.d("Responce Fail", t.toString());
-            }
-        });
+       CallRest();
 
         //Search Address
         final SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
@@ -144,8 +130,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
         //Current location fab
+        CurLocFab();
+
+        //Fab Menu
+        Menu();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkLocationPermission();
+        }
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    private void CurLocFab() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.myLocationButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,8 +162,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(update);
             }
         });
+    }
 
-        //Fab Menu
+    private void CallRest() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<Place>> call = apiService.CathcDetail(location, name);
+        call.enqueue(new Callback<List<Place>>() {
+            @Override
+            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
+                respondList = response.body();
+                MarkersFromJSON(respondList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
+                Log.d("Responce Fail", t.toString());
+            }
+        });
+    }
+
+    public void Menu(){
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
         final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
         final FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fab_arc_menu_map);
@@ -208,14 +227,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -318,62 +329,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (KmlContainer c : layer.getContainers()) {
             for (KmlContainer c1 : c.getContainers()) {
                 for (KmlPlacemark p : c1.getPlacemarks()) {
+                    KmlGeometry g = p.getGeometry();
                     if (p.getProperty("name").equals("Rental")) {
-                        KmlGeometry g = p.getGeometry();
                         rental.add(g.getGeometryObject().toString());
                     } else if (p.getProperty("name").equals("NextBike")) {
-                        KmlGeometry g = p.getGeometry();
                         nextBike.add(g.getGeometryObject().toString());
                     } else if (p.getProperty("name").equals("P")) {
-                        KmlGeometry g = p.getGeometry();
                         parking.add(g.getGeometryObject().toString());
                     }
                 }
             }
         }
-        CreateNextBikeMarkers(nextBike);
-        CreateParkingMarkers(parking);
-        CreateRentalMarkers(rental);
+        mNextBike.addAll(createKMLMarkers(nextBike, "nextBike"));
+        mRental.addAll(createKMLMarkers(rental, "Bike rental place"));
+        mParking.addAll(createKMLMarkers(parking, "Parking spot"));
     }
 
-    private void CreateParkingMarkers(List<String> parking) {
-        for (int i = 0; i < parking.size(); i++) {
-            String[] ls;
-            ls = parking.get(i).substring(10, parking.get(i).length() - 1).split(",");
+    private List<Marker> createKMLMarkers(List<String> coordsColection, String markerTitle) {
+        String [] ls;
+        List<Marker>markers = new ArrayList<>();
+        for (int i = 0; i < coordsColection.size(); i++)
+        {
+            ls = coordsColection.get(i).substring(10, coordsColection.get(i).length() - 1).split(",");
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
-                    .title("Parking")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-                    .visible(false));
-            mParking.add(marker);
-        }
-    }
-
-    private void CreateNextBikeMarkers(List<String> nextBike) {
-        for (int i = 0; i < nextBike.size(); i++) {
-            String[] ls;
-            ls = nextBike.get(i).substring(10, nextBike.get(i).length() - 1).split(",");
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
-                    .title("NextBike")
+                    .title(markerTitle)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                     .visible(false));
-            mNextBike.add(marker);
+            markers.add(marker);
         }
+        return markers;
     }
 
-    private void CreateRentalMarkers(List<String> rental) {
-        for (int i = 0; i < rental.size(); i++) {
-            String[] ls;
-            ls = rental.get(i).substring(10, rental.get(i).length() - 1).split(",");
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
-                    .title("Rental place")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                    .visible(false));
-            mRental.add(marker);
-        }
-    }
 
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)
@@ -431,9 +418,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
             }
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     @Override

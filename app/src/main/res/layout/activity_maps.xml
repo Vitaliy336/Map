@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/fabMargin"
         android:layout_marginRight="@dimen/fabMargin"
         android:src="@android:drawable/ic_menu_mylocation"
-        app:backgroundTint="#FFFFFF" />
+        app:backgroundTint="@color/colorWhite" />
 
     <com.sa90.materialarcmenu.ArcMenu
         android:id="@+id/arcmenu_android_example_layout"
