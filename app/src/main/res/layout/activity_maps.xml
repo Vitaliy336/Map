@@ -47,7 +47,7 @@
             android:id="@+id/fab_arc_menu_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/fMapd"
             android:src="@android:drawable/ic_dialog_map" />
     </com.sa90.materialarcmenu.ArcMenu>
 
@@ -62,7 +62,6 @@
         android:focusable="false"
         android:focusableInTouchMode="true"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Here"
-        tools:queryHint="@string/SearchHere" />
+        app:queryHint="@string/hint" />
 
 </fragment>

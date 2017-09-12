@@ -3,5 +3,13 @@
     <string name="title_activity_maps">Map</string>
     <string name="Search">Search</string>
     <string name="SearchHere">SerchHere</string>
+    <string name="ShR">Shops and repair places</string>
+    <string name="action">show/hide</string>
+    <string name="NextBike">NextBike Spots</string>
+    <string name="Rent">Rental Places</string>
+    <string name="Parking">Parking Spots</string>
+    <string name="hint">Search here</string>
+    <string name="Settings">Settings</string>
+    <string name="Summary">Markers options</string>
 
 </resources>
