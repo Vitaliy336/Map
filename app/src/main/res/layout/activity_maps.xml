@@ -11,9 +11,9 @@
         android:id="@+id/myLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
+        android:layout_gravity="bottom|start"
         android:layout_marginBottom="@dimen/fabMargin"
-        android:layout_marginRight="@dimen/fabMargin"
+        android:layout_marginEnd="@dimen/fabMargin"
         android:src="@android:drawable/ic_menu_mylocation"
         app:backgroundTint="@color/colorWhite" />
 
@@ -21,41 +21,34 @@
         android:id="@+id/arcmenu_android_example_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_gravity="bottom|right"
-        app:menu_scr="@android:drawable/ic_menu_more"
-        app:menu_color="@color/colorGreen"
-        app:fabSize="mini">
+        android:layout_gravity="bottom|end"
+        app:fabSize="mini"
+        app:menu_scr="@android:drawable/ic_menu_more">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_info"
-            app:backgroundTint="@color/colorGreen" />
+            android:src="@android:drawable/ic_dialog_info" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
-            android:src="@android:drawable/ic_dialog_alert"
-            app:backgroundTint="@color/colorGreen"/>
+            android:src="@android:drawable/ic_dialog_alert" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_email"
-            app:backgroundTint="@color/colorGreen"/>
+            android:src="@android:drawable/ic_dialog_email" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@android:drawable/ic_dialog_map"
-            app:backgroundTint="@color/colorGreen" />
+            android:src="@android:drawable/ic_dialog_map" />
     </com.sa90.materialarcmenu.ArcMenu>
 
     <SearchView

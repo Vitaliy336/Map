@@ -59,7 +59,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.media.CamcorderProfile.get;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -77,10 +76,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<String> rental = new ArrayList<>();
     List<String> nextBike = new ArrayList<>();
     List<String> parking = new ArrayList<>();
-    List<Marker> mRental = new ArrayList<Marker>();
-    List<Marker> mNextBike = new ArrayList<Marker>();
-    List<Marker> mParking = new ArrayList<Marker>();
-    List<Marker> mShopsRepair = new ArrayList<Marker>();
+    List<Marker> mRental = new ArrayList<>();
+    List<Marker> mNextBike = new ArrayList<>();
+    List<Marker> mParking = new ArrayList<>();
+    List<Marker> mShopsRepair = new ArrayList<>();
     private List<Place> respondList;
     private KmlLayer layer;
     private GoogleMap mMap;
@@ -95,40 +94,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(activity_maps);
 
         //Rest
-       CallRest();
+        CallRest();
 
         //Search Address
-        final SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                List<Address> addresses = null;
-                MarkerOptions mo = new MarkerOptions();
-                if (!query.equals("")) {
-                    Geocoder geocoder = new Geocoder(getBaseContext());
-                    try {
-                        addresses = geocoder.getFromLocationName(query, 5);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 0; i < addresses.size(); i++) {
-                        Address myAdress = addresses.get(i);
-                        LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
-                        mo.position(latlng);
-                        mo.title(query);
-                        mMap.addMarker(mo);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-                    }
-                }
-                searchView.clearFocus();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                return false;
-            }
-        });
+        onMapSearch();
 
         //Current location fab
         CurLocFab();
@@ -144,6 +113,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void onMapSearch() {
+        final SearchView searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) throws NullPointerException {
+                List<Address> addresses = null;
+                MarkerOptions mo = new MarkerOptions();
+                if (!s.equals("")) {
+                    Geocoder geocoder = new Geocoder(getBaseContext());
+                    try {
+                        addresses = geocoder.getFromLocationName(s, 5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < addresses.size(); i++) {
+                        Address myAdress = addresses.get(i);
+                        LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
+                        mo.position(latlng);
+                        mo.title(s);
+                        mMap.addMarker(mo);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
+                    }
+                }
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
     private void CurLocFab() {
@@ -181,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    public void Menu(){
+    public void Menu() {
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
         final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
         final FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fab_arc_menu_map);
@@ -194,14 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 fabEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent Email = new Intent(Intent.ACTION_SEND);
-                        Email.setType("text/email");
-                        Email.putExtra(Intent.EXTRA_EMAIL,
-                                new String[]{"vitaliyshevchyk336@gmail.com"});  //developer 's email
-                        Email.putExtra(Intent.EXTRA_SUBJECT,
-                                "Add your Subject"); // Email 's Subject
-                        Email.putExtra(Intent.EXTRA_TEXT, "Dear Vitaliy," + "");  //Email 's Greeting text
-                        startActivity(Intent.createChooser(Email, "Send Feedback:"));
+                        SendEmail();
                     }
                 });
 
@@ -226,7 +222,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //TODO something when menu is closed
             }
         });
+    }
 
+    private void SendEmail() {
+        Intent Email = new Intent(Intent.ACTION_SEND);
+        Email.setType("text/email");
+        Email.putExtra(Intent.EXTRA_EMAIL,
+                new String[]{"vitaliyshevchyk336@gmail.com"});  //developer 's email
+        Email.putExtra(Intent.EXTRA_SUBJECT,
+                "Add your Subject"); // Email 's Subject
+        Email.putExtra(Intent.EXTRA_TEXT, "Dear Vitaliy," + "");  //Email 's Greeting text
+        startActivity(Intent.createChooser(Email, "Send Feedback:"));
     }
 
     @Override
@@ -236,7 +242,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PreferenceManager.setDefaultValues(this, prefs, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
-        if (sharedPreferences.getBoolean("PS", false) == true) {
+        if (sharedPreferences.getBoolean("PS", false)) {
             for (Marker m : mParking) {
                 m.setVisible(true);
             }
@@ -245,7 +251,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 m.setVisible(false);
             }
         }
-        if (sharedPreferences.getBoolean("NBS", false) == true) {
+        if (sharedPreferences.getBoolean("NBS", false)) {
             for (Marker m : mNextBike) {
                 m.setVisible(true);
             }
@@ -254,7 +260,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 m.setVisible(false);
             }
         }
-        if (sharedPreferences.getBoolean("RP", false) == true) {
+        if (sharedPreferences.getBoolean("RP", false)) {
             for (Marker m : mRental) {
                 m.setVisible(true);
             }
@@ -263,7 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 m.setVisible(false);
             }
         }
-        if (sharedPreferences.getBoolean("SaR", false) == true) {
+        if (sharedPreferences.getBoolean("SaR", false)) {
             for (Marker m : mShopsRepair) {
                 m.setVisible(true);
             }
@@ -346,10 +352,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private List<Marker> createKMLMarkers(List<String> coordsColection, String markerTitle) {
-        String [] ls;
-        List<Marker>markers = new ArrayList<>();
-        for (int i = 0; i < coordsColection.size(); i++)
-        {
+        String[] ls;
+        List<Marker> markers = new ArrayList<>();
+        for (int i = 0; i < coordsColection.size(); i++) {
             ls = coordsColection.get(i).substring(10, coordsColection.get(i).length() - 1).split(",");
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
@@ -424,7 +429,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
@@ -444,4 +448,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return true;
 
     }
+
 }
