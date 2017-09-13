@@ -11,5 +11,6 @@
     <string name="hint">Search here</string>
     <string name="Settings">Settings</string>
     <string name="Summary">Markers options</string>
+    <string name="Spots">Interesting places</string>
 
 </resources>

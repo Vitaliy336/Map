@@ -6,33 +6,27 @@
         android:title="@string/Settings">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="ShopAndRepair"
+            android:key="SaR"
             android:summary="@string/action"
             android:title="@string/ShR" />
 
         <CheckBoxPreference
+            android:allowUndo="false"
             android:defaultValue="false"
-            android:key="NextBike"
+            android:key="NBS"
             android:summary="@string/action"
             android:title="@string/NextBike" />
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="Rental"
+            android:key="RP"
             android:summary="@string/action"
             android:title="@string/Rent" />
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="Parking"
+            android:key="PS"
             android:summary="@string/action"
             android:title="@string/Parking" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="Spots"
-            android:summary="@string/action"
-            android:title="@string/Spots" />
-
     </PreferenceCategory>
 </PreferenceScreen>

@@ -2276,7 +2276,7 @@
     <Folder>
       <name>Places of Interest for cyclists | Велолокації</name>
       <Placemark>
-        <name>Skate Park | Хмельницького</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh3.googleusercontent.com/BOkXuUhjrNb54n1ecarE6WfViS_PL5LldttJvMAoTsvi71lrqZZgExfioa_xE9e4wExCkNUbRSQkcN7HjNHAPKDY-dGD2_8n3I88s3HaP9TNQTVFmAOVIkImqgBa66uIOw" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-960-F8971B</styleUrl>
         <ExtendedData>
@@ -2291,7 +2291,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Skate Park | На Валах</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/d16DJPV4UKnpfaGoUS9bJINQ2nEwDylH40FAeHZWwjE5asYq0uyKZpUfmH74I_nNgXPhwLo8uDwQgQgvInxmpFDmwADRjzU" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-960-F8971B</styleUrl>
         <ExtendedData>
@@ -2306,7 +2306,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>SKA cycle race track | Велотрек СКА</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/Q2g5IEQf6qOS4myx6KDg66pLR2QQa-nVnPa8D5OQaxIGbij3vV5774rvjjPznmdWqsc7y6GTIPdfXYxP7Lgr2wmMib08M_k19oW4xR5wr-CUSWxu1KWb-ZJebmLDUh_S4tE" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-1419</styleUrl>
         <ExtendedData>
@@ -2321,7 +2321,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Critical Mass Lviv cycle event</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/qYrrWpKQTyWrK4oLpDWLf-kqq5SZv1Mj67GfvFI84Vx3cMeQ2Fs1HTjyPnkeLv7crzfcSr1WtiIHvUPMJbDDA-cL1q9NZkCo6usaPw" height="200" width="auto" /><br><br>"Critical Mass Lviv" Monthly Cycling Event<br>Location: Ivan Franko monument<br>Date: last Friday of each month<br>Start Time: 19:00<br>Route: along the city streets<br>Details: www.facebook.com/cmlviv | www.cmlviv.com]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2336,7 +2336,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Pohulianka bike bark</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/h_Og2VD6RtgEfqtna9wWj6VTcInohq5HTU0ZVPbi69bXOEx56cp4og-BEO1e5u9NhlBm112OKu7uLNmm-egL2INoszeTrd_fWJyCgw" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2351,7 +2351,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Bike park
+        <name>Bike Spot
 </name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
@@ -2361,7 +2361,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name><![CDATA[Vul'ky Bike Park]]></name>
+        <name>Bike Spot></name>
         <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/1oWgV5oT4GEYF5-2H86qZoKgs51qWSnOwIfgBt0P-KfKNG2h1kh3_Brqh4sgKPYmpl5J1raqri7yc-3jr4H_s19WEgbCaBXirth-MT80xGom" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2376,7 +2376,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Sykhiv Bike Park</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/O50JFdJImXZWU7-ibQtjSi_7IgSUZ9cyB-M-rITBMP9kscIpUe58FJ8UTjTVywyaRz4alv3uDcnEU_JhI31F3ftZUSW003WkqAN7G7_hvQ" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2391,7 +2391,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Briukhovychi Bike Park</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/ERcGG67YxcKtb0oDV_PViCyPGDkXLMDG0hXIH8oRZIevzrFZIGdI7r-QVtRGeI6De_H0VsM5jmwEAHN9U95BJebyEyyUeThqFQ" height="200" width="auto" /><br><br>З вулулиці Замарстинівської повертаємо перед озером ліворуч рухаємось по дачному масиву до 3-ї вулички, де повертаємо направо. Їдемо до кінця вулиці (відміткою зазначено на карті), після цього буде дорога в ліс, продовжуйте рух прямо і за 250-300 м виїдете до траси, а саме до її фінішу.<br><br><img src="https://lh3.googleusercontent.com/proxy/sOJOMhGhHO0qxDa2poD3xsf-N-wcFVI3nGtNugTiqkOe5Abb29l3aERsCMhbGqLh-HgV60zDkhKQOTBZnpCGDEighQhKhYP6bKUbHw" height="200" width="auto" />]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2406,7 +2406,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Chortovi Skeli bike park</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/Jy8MBnjjA3qOTlckDRSnX_MMb0IVocF1MEdvukMlUJN8ejahfUKI7Jj8gCrpN-hKtziJvUewf37jX5u4UgcidmkadyBj8p0aAg" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2421,7 +2421,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Bike Park
+        <name>Bike Spot
 </name>
         <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/szjWIxKIM6GAIrStL0gzUax3pXHib2VDBaIsjr5cMvsR3P51H3dek-Tc0mbCRVqehCsWLyj91ZQAZt2qJ271YZeuOcT1kHCPzCighg" height="200" width="auto" /><br><br>]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2437,7 +2437,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Kaiserwald</name>
+        <name>Bike Spot</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
@@ -2446,7 +2446,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Piskovnia Bike Park / Pump Track</name>
+        <name>Bike Spot</name>
         <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/ZDrYzSx8--O3sy6BC4J-iE1WnQyRobI1MtweG2Qf69bxRvPcoWlaiJQnailIruH35Iu-xWTcM-tSVYHfveENposVuHKjPe3jpx5C8g" height="200" width="auto" /><br><br>Address: Ivanova Hora Str.]]></description>
         <styleUrl>#icon-503-DB4436</styleUrl>
         <ExtendedData>
@@ -2461,7 +2461,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Gorihovyi Hai Bike Park</name>
+        <name>Bike Spot</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
@@ -2470,7 +2470,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Zamarstyniv Bike Park</name>
+        <name>Bike Spot</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
