@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etOrigin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/Start" />
+
+    <EditText
+        android:id="@+id/etDestination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/End" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/imgW"
+            android:layout_height="@dimen/imgH"
+            android:layout_marginBottom="@dimen/ImgM"
+            android:layout_marginStart="@dimen/imgH"
+            android:layout_marginTop="@dimen/ImgM"
+            android:contentDescription="@string/CDR"
+            android:src="@drawable/route"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ImgM"
+            android:text="@string/Distance" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/ImgM"
+            android:layout_marginStart="@dimen/imgH"
+            android:layout_marginTop="@dimen/ImgM"
+            android:contentDescription="@string/CDC"
+            android:padding="5dp"
+            android:src="@drawable/clock" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ImgM"
+            android:text="@string/time" />
+    </LinearLayout>
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_search_white_24dp" />
+
+    </fragment>
+</LinearLayout>

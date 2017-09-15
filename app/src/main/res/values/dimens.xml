@@ -5,4 +5,8 @@
     <dimen name="SVMargin">18dp</dimen>
     <dimen name="fabMargin">16dp</dimen>
     <dimen name="fMapd">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="imgW">40dp</dimen>
+    <dimen name="imgH">40dp</dimen>
+    <dimen name="ImgM">5dp</dimen>>
 </resources>

@@ -5,7 +5,7 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vitaliy.map.activity.MapsActivity">
+    tools:context="com.example.vitaliy.map.paths.MapsActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/myLocationButton"
@@ -14,7 +14,7 @@
         android:layout_gravity="bottom|start"
         android:layout_marginBottom="@dimen/fabMargin"
         android:layout_marginEnd="@dimen/fabMargin"
-        android:src="@android:drawable/ic_menu_mylocation"
+        android:src="@drawable/ic_my_location_black_24dp"
         app:backgroundTint="@color/colorWhite" />
 
     <com.sa90.materialarcmenu.ArcMenu
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:fabSize="mini"
-        app:menu_scr="@android:drawable/ic_menu_more">
+        app:menu_scr="@drawable/ic_dehaze_white_24dp">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_info"
@@ -32,10 +32,10 @@
             android:src="@android:drawable/ic_dialog_info" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_arc_menu_2"
+            android:id="@+id/fab_arc_menu_route"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_alert" />
+            android:src="@drawable/route_white" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_Email"
@@ -62,6 +62,6 @@
         android:focusable="false"
         android:focusableInTouchMode="true"
         android:iconifiedByDefault="false"
-        app:queryHint="@string/hint" />
+        android:queryHint="@string/hint" />
 
 </fragment>

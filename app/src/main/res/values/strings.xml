@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Map</string>
+    <string name="app_name">Lviv Bike Map</string>
     <string name="title_activity_maps">Map</string>
     <string name="Search">Search</string>
     <string name="SearchHere">SerchHere</string>
@@ -12,5 +12,13 @@
     <string name="Settings">Settings</string>
     <string name="Summary">Markers options</string>
     <string name="Spots">Interesting places</string>
+    <string name="title_activity_second">SecondActivity</string>
+    <string name="Start">Enter start address</string>
+    <string name="End">Enter destination address</string>
+    <string name="Distance">0 km</string>
+    <string name="time">0 min</string>
+    <string name="CDR">Rout from point A to point B</string>
+    <string name="CDC">Time that you need to route</string>
+
 
 </resources>
