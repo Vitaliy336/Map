@@ -192,7 +192,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
         final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
         final FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fab_arc_menu_map);
-        final FloatingActionButton fabInfo = (FloatingActionButton) findViewById(R.id.fab_arc_menu_info);
         final FloatingActionButton fabsm = (FloatingActionButton) findViewById(R.id.fab_arc_menu_route);
         arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
 
@@ -208,8 +207,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             case R.id.fab_arc_menu_map:
                                 startActivity(new Intent(MapsActivity.this, PrefsActivity.class));
                                 break;
-                            case R.id.fab_arc_menu_info:
-                                break;
                             case R.id.fab_arc_menu_route:
                                 startActivity(new Intent(MapsActivity.this, SecondActivity.class));
                                 break;
@@ -217,7 +214,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 };
                 fabEmail.setOnClickListener(handler);
-                fabInfo.setOnClickListener(handler);
                 fabMap.setOnClickListener(handler);
                 fabsm.setOnClickListener(handler);
 
@@ -380,7 +376,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //stop location updates
         if (client != null) {

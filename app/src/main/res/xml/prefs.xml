@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:summary="@string/Summary"
         android:title="@string/Settings">
         <CheckBoxPreference
             android:defaultValue="true"
+            android:icon="@drawable/shop"
             android:key="ShopAndRepair"
             android:summary="@string/action"
             android:title="@string/ShR" />
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:icon="@drawable/nb"
             android:key="NextBike"
             android:summary="@string/action"
             android:title="@string/NextBike" />
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:icon="@drawable/rental"
             android:key="Rental"
             android:summary="@string/action"
             android:title="@string/Rent" />
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:icon="@drawable/bicycle"
             android:key="Parking"
             android:summary="@string/action"
             android:title="@string/Parking" />
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:icon="@drawable/star"
             android:key="Spots"
             android:summary="@string/action"
             android:title="@string/Spots" />

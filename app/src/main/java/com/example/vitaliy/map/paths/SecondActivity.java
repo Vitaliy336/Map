@@ -2,8 +2,12 @@ package com.example.vitaliy.map.paths;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -18,11 +22,13 @@ import com.example.vitaliy.map.R;
 import com.example.vitaliy.map.paths.Modules.DirectionFinder;
 import com.example.vitaliy.map.paths.Modules.DirectionFinderListener;
 import com.example.vitaliy.map.paths.Modules.Route;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -32,7 +38,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecondActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
+import static com.example.vitaliy.map.R.id.fabSearh;
+import static com.example.vitaliy.map.R.id.map;
+
+public class SecondActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, LocationListener {
 
     private GoogleMap mMap;
     private Button btnFindPath;
@@ -42,6 +51,9 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
+    private LocationManager locationManager;
+    private static final long MIN_TIME = 400;
+    private static final float MIN_DISTANCE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +61,27 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_second);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
         mapFragment.getMapAsync(this);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
 
         etOrigin = (EditText) findViewById(R.id.etOrigin);
         etDestination = (EditText) findViewById(R.id.etDestination);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabsearch = (FloatingActionButton) findViewById(fabSearh);
+        fabsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendRequest();
@@ -68,7 +93,7 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
         String origin = etOrigin.getText().toString();
         String destination = etDestination.getText().toString();
         if (origin.isEmpty()) {
-            Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter start address!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (destination.isEmpty()) {
@@ -156,5 +181,28 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
 
             polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+        mMap.animateCamera(cameraUpdate);
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 }
