@@ -1,8 +1,6 @@
 package com.example.vitaliy.map.paths.Modules;
 
-/**
- * Created by Mai Thanh Hiep on 4/3/2016.
- */
+
 public class Duration {
     public String text;
     public int value;

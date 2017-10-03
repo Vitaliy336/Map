@@ -26,6 +26,12 @@
         app:menu_scr="@drawable/ic_dehaze_white_24dp">
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_info" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_route"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

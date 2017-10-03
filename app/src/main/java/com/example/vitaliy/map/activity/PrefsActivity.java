@@ -1,5 +1,7 @@
 package com.example.vitaliy.map.activity;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

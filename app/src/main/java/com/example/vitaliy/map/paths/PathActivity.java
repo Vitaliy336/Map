@@ -13,7 +13,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +40,9 @@ import java.util.List;
 import static com.example.vitaliy.map.R.id.fabSearh;
 import static com.example.vitaliy.map.R.id.map;
 
-public class SecondActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, LocationListener {
+public class PathActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, LocationListener {
 
     private GoogleMap mMap;
-    private Button btnFindPath;
     private EditText etOrigin;
     private EditText etDestination;
     private List<Marker> originMarkers = new ArrayList<>();
@@ -59,20 +57,12 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
@@ -113,13 +103,6 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         mMap.setMyLocationEnabled(true);
@@ -131,21 +114,19 @@ public class SecondActivity extends FragmentActivity implements OnMapReadyCallba
         progressDialog = ProgressDialog.show(this, "Please wait.",
                 "Finding direction..!", true);
 
-        if (originMarkers != null) {
-            for (Marker marker : originMarkers) {
-                marker.remove();
-            }
-        }
-
-        if (destinationMarkers != null) {
-            for (Marker marker : destinationMarkers) {
-                marker.remove();
-            }
-        }
+        removeMarkers(originMarkers);
+        removeMarkers(destinationMarkers);
 
         if (polylinePaths != null) {
             for (Polyline polyline : polylinePaths) {
                 polyline.remove();
+            }
+        }
+    }
+    public void removeMarkers(List<Marker> list){
+        if (list!=null){
+            for(Marker marker : list){
+                marker.remove();
             }
         }
     }

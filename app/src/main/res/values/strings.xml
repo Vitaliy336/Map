@@ -19,6 +19,16 @@
     <string name="time">0 min</string>
     <string name="CDR">Rout from point A to point B</string>
     <string name="CDC">Time that you need to route</string>
+    <string name="message">Write your message</string>
+    <string name="OptionPrompt">Please select an option</string>
+    <string name="VariantPrompt">Please select an address</string>
 
+    <string-array name="options">
+        <item>NextBike</item>
+        <item>Parking place</item>
+        <item>rental spot</item>
+        <item>Shop and repair station</item>
+        <item>Interesting places</item>
+    </string-array>
 
 </resources>

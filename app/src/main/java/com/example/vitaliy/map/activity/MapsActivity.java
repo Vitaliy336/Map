@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,9 +24,10 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.vitaliy.map.Message.MessageActivity;
 import com.example.vitaliy.map.R;
 import com.example.vitaliy.map.model.Place;
-import com.example.vitaliy.map.paths.SecondActivity;
+import com.example.vitaliy.map.paths.PathActivity;
 import com.example.vitaliy.map.rest.ApiClient;
 import com.example.vitaliy.map.rest.ApiInterface;
 import com.google.android.gms.common.ConnectionResult;
@@ -53,13 +55,17 @@ import com.sa90.materialarcmenu.StateChangeListener;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -69,15 +75,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener {
 
     public static final int REQUEST_LOCATION_CODE = 99;
-    String location;
-    String name;
+    String location, name;
     View mapView;
     ArcMenu arcMenuAndroid;
     SearchView searchView;
-    List<String> rental = new ArrayList<>();
-    List<String> Spots = new ArrayList<>();
-    List<String> nextBike = new ArrayList<>();
-    List<String> parking = new ArrayList<>();
     List<Marker> mRental = new ArrayList<>();
     List<Marker> mNextBike = new ArrayList<>();
     List<Marker> mSpots = new ArrayList<>();
@@ -124,6 +125,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                Address myAdress;
+                LatLng latlng;
                 List<Address> addresses = null;
                 MarkerOptions mo = new MarkerOptions();
                 if (!s.equals("")) {
@@ -134,8 +137,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         e.printStackTrace();
                     }
                     for (int i = 0; i < addresses.size(); i++) {
-                        Address myAdress = addresses.get(i);
-                        LatLng latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
+                        myAdress = addresses.get(i);
+                        latlng = new LatLng(myAdress.getLatitude(), myAdress.getLongitude());
                         mo.position(latlng);
                         mo.title(s);
                         mMap.addMarker(mo);
@@ -173,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void CallRest() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<Place>> call = apiService.CathcDetail(location, name);
+        Call<List<Place>> call = apiService.CathcDetail(location);
         call.enqueue(new Callback<List<Place>>() {
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
@@ -191,6 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void Menu() {
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
         final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
+        final FloatingActionButton fabMessage = (FloatingActionButton) findViewById(R.id.fab_arc_menu_info);
         final FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fab_arc_menu_map);
         final FloatingActionButton fabsm = (FloatingActionButton) findViewById(R.id.fab_arc_menu_route);
         arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
@@ -208,14 +212,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 startActivity(new Intent(MapsActivity.this, PrefsActivity.class));
                                 break;
                             case R.id.fab_arc_menu_route:
-                                startActivity(new Intent(MapsActivity.this, SecondActivity.class));
+                                startActivity(new Intent(MapsActivity.this, PathActivity.class));
                                 break;
+                            case R.id.fab_arc_menu_info:
+                                Intent intent = new Intent(MapsActivity.this, MessageActivity.class);
+                                intent.putStringArrayListExtra("NB", (ArrayList<String>) coords(mNextBike));
+                                intent.putStringArrayListExtra("P", (ArrayList<String>) coords(mParking));
+                                intent.putStringArrayListExtra("R", (ArrayList<String>) coords(mRental));
+                                intent.putStringArrayListExtra("SH", (ArrayList<String>) coords(mShopsRepair));
+                                intent.putStringArrayListExtra("S", (ArrayList<String>) coords(mSpots));
+                                startActivity(intent);
                         }
                     }
                 };
                 fabEmail.setOnClickListener(handler);
                 fabMap.setOnClickListener(handler);
                 fabsm.setOnClickListener(handler);
+                fabMessage.setOnClickListener(handler);
 
             }
 
@@ -224,6 +237,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //TODO something when menu is closed
             }
         });
+    }
+
+    private List<String> coords(List<Marker> markers){
+        List<String> latLngs = new ArrayList<>();
+        for(Marker m : markers){
+            latLngs.add(m.getPosition().toString());
+        }
+        return latLngs;
     }
 
     private void SendEmail() {
@@ -261,6 +282,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void MarkersFromJSON(List<Place> places) {
         String[] ls;
         Marker marker;
+
         for (int i = 0; i < places.size(); i++) {
             ls = places.get(i).getDetail().get(0).getLocation().split(", ");
             for (int j = 0; j < 2; j++) {
@@ -316,38 +338,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (KmlPlacemark p : c1.getPlacemarks()) {
                     KmlGeometry g = p.getGeometry();
                     if (p.getProperty("name").equals("Rental")) {
-                        rental.add(g.getGeometryObject().toString());
+                        mRental.add( createKMLMarker( g.getGeometryObject().toString(), "rental place", R.drawable.rental ));
                     } else if (p.getProperty("name").equals("NextBike")) {
-                        nextBike.add(g.getGeometryObject().toString());
+                        mNextBike.add( createKMLMarker( g.getGeometryObject().toString(), "nextBike", R.drawable.nb ));
                     } else if (p.getProperty("name").equals("P")) {
-                        parking.add(g.getGeometryObject().toString());
+                        mParking.add( createKMLMarker( g.getGeometryObject().toString(), null, R.drawable.bicycle ));
                     } else if (p.getProperty("name").equals("Bike Spot")) {
-                        Spots.add(g.getGeometryObject().toString());
+                        mSpots.add( createKMLMarker( g.getGeometryObject().toString(), "nextBike", R.drawable.star ));
                     }
                 }
             }
         }
-        mNextBike.addAll(createKMLMarkers(nextBike, "nextBike", R.drawable.nb));
-        mRental.addAll(createKMLMarkers(rental, "Bike rental place", R.drawable.rental));
-        mParking.addAll(createKMLMarkers(parking, "Parking spot", R.drawable.bicycle));
-        mSpots.addAll(createKMLMarkers(Spots, null, R.drawable.star));
     }
 
-    private List<Marker> createKMLMarkers(List<String> coordsColection, String markerTitle, int img) {
-        String[] ls;
-        List<Marker> markers = new ArrayList<>();
-        for (int i = 0; i < coordsColection.size(); i++) {
-            ls = coordsColection.get(i).substring(10, coordsColection.get(i).length() - 1).split(",");
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
-                    .title(markerTitle)
-                    .icon(BitmapDescriptorFactory.fromResource(img))
-                    .visible(false));
-            markers.add(marker);
-        }
-        return markers;
+    private Marker createKMLMarker(String s, String nextBike, int nb) {
+      String [] ls;
+        ls = s.substring(10, s.length()-1).split(",");
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
+                .title(nextBike)
+                .icon(BitmapDescriptorFactory.fromResource(nb))
+                .visible(false));
+        return marker;
     }
-
 
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)

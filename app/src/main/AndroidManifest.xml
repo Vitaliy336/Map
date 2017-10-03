@@ -63,10 +63,14 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
-            android:name=".paths.SecondActivity"
-            android:screenOrientation="portrait"
+            android:name=".paths.PathActivity"
             android:label="@string/title_activity_second"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Message.MessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>
