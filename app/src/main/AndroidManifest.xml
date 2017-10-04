@@ -67,10 +67,7 @@
             android:label="@string/title_activity_second"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Message.MessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+        <activity android:name=".Message.SendMessage"></activity>
     </application>
 
 </manifest>

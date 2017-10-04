@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.vitaliy.map.Message.SendMessage">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <Spinner
+            android:id="@+id/PlaceVariants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ImgM"
+            android:padding="@dimen/SpinnerD" />
+
+        <Spinner
+            android:id="@+id/AddressOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ImgM"
+            android:padding="@dimen/SpinnerD" />
+
+        <EditText
+            android:id="@+id/MessageEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ImgM"
+            android:hint="@string/message"
+            android:padding="20dp" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="@dimen/SpinnerD"
+            android:text="Send"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

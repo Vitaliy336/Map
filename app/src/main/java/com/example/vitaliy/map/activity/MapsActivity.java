@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +23,7 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.vitaliy.map.Message.MessageActivity;
+import com.example.vitaliy.map.Message.SendMessage;
 import com.example.vitaliy.map.R;
 import com.example.vitaliy.map.model.Place;
 import com.example.vitaliy.map.paths.PathActivity;
@@ -55,17 +54,13 @@ import com.sa90.materialarcmenu.StateChangeListener;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -215,7 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 startActivity(new Intent(MapsActivity.this, PathActivity.class));
                                 break;
                             case R.id.fab_arc_menu_info:
-                                Intent intent = new Intent(MapsActivity.this, MessageActivity.class);
+                                Intent intent = new Intent(MapsActivity.this, SendMessage.class);
                                 intent.putStringArrayListExtra("NB", (ArrayList<String>) coords(mNextBike));
                                 intent.putStringArrayListExtra("P", (ArrayList<String>) coords(mParking));
                                 intent.putStringArrayListExtra("R", (ArrayList<String>) coords(mRental));
@@ -328,9 +323,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         try {
             layer = new KmlLayer(mMap, R.raw.lviv_b, getApplicationContext());
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         for (KmlContainer c : layer.getContainers()) {
@@ -353,8 +346,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Marker createKMLMarker(String s, String nextBike, int nb) {
       String [] ls;
+        Marker marker;
         ls = s.substring(10, s.length()-1).split(",");
-        Marker marker = mMap.addMarker(new MarkerOptions()
+       marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                 .title(nextBike)
                 .icon(BitmapDescriptorFactory.fromResource(nb))
