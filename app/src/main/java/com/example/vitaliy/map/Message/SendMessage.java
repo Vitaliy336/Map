@@ -16,6 +16,7 @@ import com.example.vitaliy.map.R;
 import com.example.vitaliy.map.rest.ApiClient;
 import com.example.vitaliy.map.rest.ApiInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class SendMessage extends AppCompatActivity {
     Spinner TypeVariants, addressVariants;
@@ -37,13 +39,14 @@ public class SendMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
-        nextBike = getAddresses(getIntent().getStringArrayListExtra("NB"));
-        parking = getIntent().getStringArrayListExtra("P");
-        rental = getIntent().getStringArrayListExtra("R");
-        shopArepair = getIntent().getStringArrayListExtra("SH");
-        spots = getIntent().getStringArrayListExtra("S");
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arr1);
+        nextBike = getAddresses(getIntent().getStringArrayListExtra("NB"));
+        parking = getAddresses(getIntent().getStringArrayListExtra("P"));
+        rental = getAddresses(getIntent().getStringArrayListExtra("R"));
+        shopArepair = getAddresses(getIntent().getStringArrayListExtra("SH"));
+        spots = getAddresses(getIntent().getStringArrayListExtra("S"));
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arr1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
         TypeVariants = (Spinner) findViewById(R.id.PlaceVariants);
@@ -90,7 +93,7 @@ public class SendMessage extends AppCompatActivity {
     }
 
     private void initAddressVariants(ArrayList<String> arList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addressVariants.setAdapter(adapter);
     }
@@ -117,25 +120,18 @@ public class SendMessage extends AppCompatActivity {
 
     private List<String> getAddresses(ArrayList<String> coords) {
         List<Address> adresses;
+        String temp;
         List<String> rAddress = new ArrayList<>();
         Geocoder geocoder;
-        StringBuilder strReturnedAddress;
         String ls[];
-        Address returnedAddress;
         for (int i = 0; i < coords.size(); i++) {
             ls = coords.get(i).substring(10, coords.get(i).length() - 1).split(",");
             geocoder = new Geocoder(this, Locale.getDefault());
             try {
                 adresses = geocoder.getFromLocation(Double.parseDouble(ls[0]), Double.parseDouble(ls[1]), 1);
-                if (adresses != null) {
-                    returnedAddress = adresses.get(0);
-                    strReturnedAddress = new StringBuilder("");
-                    for (int j = 0; j <= returnedAddress.getMaxAddressLineIndex(); j++) {
-                        strReturnedAddress.append(returnedAddress.getAddressLine(j)).append("\n");
-                    }
-                    rAddress.add(strReturnedAddress.toString());
-                }
-            } catch (Exception e) {
+                String adr = adresses.get(0).getAddressLine(0);
+                rAddress.add(adr.replaceAll("\'", ""));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
