@@ -40,14 +40,14 @@ public class SendMessage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
 
-        nextBike = getAddresses(getIntent().getStringArrayListExtra("NB"));
-        parking = getAddresses(getIntent().getStringArrayListExtra("P"));
-        rental = getAddresses(getIntent().getStringArrayListExtra("R"));
-        shopArepair = getAddresses(getIntent().getStringArrayListExtra("SH"));
-        spots = getAddresses(getIntent().getStringArrayListExtra("S"));
+         nextBike = getIntent().getStringArrayListExtra("NB");
+         parking = getIntent().getStringArrayListExtra("P");
+         rental = getIntent().getStringArrayListExtra("R");
+         shopArepair = getIntent().getStringArrayListExtra("SH");
+         spots = getIntent().getStringArrayListExtra("S");
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arr1);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         TypeVariants = (Spinner) findViewById(R.id.PlaceVariants);
         addressVariants = (Spinner) findViewById(R.id.AddressOptions);
@@ -120,7 +120,6 @@ public class SendMessage extends AppCompatActivity {
 
     private List<String> getAddresses(ArrayList<String> coords) {
         List<Address> adresses;
-        String temp;
         List<String> rAddress = new ArrayList<>();
         Geocoder geocoder;
         String ls[];
