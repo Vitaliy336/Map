@@ -212,11 +212,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 break;
                             case R.id.fab_arc_menu_info:
                                 Intent intent = new Intent(MapsActivity.this, SendMessage.class);
-                                intent.putStringArrayListExtra("NB", (ArrayList<String>) coords(mNextBike));
-                                intent.putStringArrayListExtra("P", (ArrayList<String>) coords(mParking));
-                                intent.putStringArrayListExtra("R", (ArrayList<String>) coords(mRental));
-                                intent.putStringArrayListExtra("SH", (ArrayList<String>) coords(mShopsRepair));
-                                intent.putStringArrayListExtra("S", (ArrayList<String>) coords(mSpots));
                                 startActivity(intent);
                         }
                     }
@@ -242,6 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return latLngs;
     }
+
 
     private void SendEmail() {
         Intent Email = new Intent(Intent.ACTION_SEND);

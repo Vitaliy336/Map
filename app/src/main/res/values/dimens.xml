@@ -9,5 +9,6 @@
     <dimen name="imgW">40dp</dimen>
     <dimen name="imgH">40dp</dimen>
     <dimen name="ImgM">5dp</dimen>
-    <dimen name="SpinnerD">25dp</dimen>>
+    <dimen name="SpinnerD">15dp</dimen>
+    <dimen name="paddingtop">10dp</dimen>>
 </resources>

@@ -22,6 +22,9 @@
     <string name="message">Write your message</string>
     <string name="OptionPrompt">Please select an option</string>
     <string name="VariantPrompt">Please select an address</string>
+    <string name="AddressH">Address</string>
+    <string name="MessageH">Your Message</string>
+    <string name="Send">Send</string>
 
     <string-array name="options">
         <item>NextBike</item>
