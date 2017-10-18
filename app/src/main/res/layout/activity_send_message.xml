@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="368dp"
         android:layout_height="495dp"
-        android:orientation="vertical"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:orientation="vertical"
         tools:layout_editor_absoluteX="6dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -63,8 +63,9 @@
             app:met_minCharacters="10"
             tools:ignore="RtlHardcoded" />
 
-        <Button style="@style/ForButton"
+        <Button
             android:id="@+id/send"
+            style="@style/ForButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ImgM"
@@ -77,6 +78,7 @@
 
         <Button
             android:id="@+id/goTo"
+            style="@style/ForButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/paddingtop"
@@ -84,8 +86,7 @@
             android:layout_marginRight="@dimen/SpinnerD"
             android:layout_marginTop="@dimen/ImgM"
             android:text="CheckMessages"
-            tools:ignore="HardcodedText,RtlHardcoded"
-            style="@style/ForButton"/>
+            tools:ignore="HardcodedText,RtlHardcoded" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

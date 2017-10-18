@@ -28,18 +28,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.vitaliy.map.R.string.Start;
-
 
 public class SendMessage extends AppCompatActivity {
     Spinner TypeVariants;
     EditText MessageBox, AddressBox;
     Button MessageS, GoTo;
     Context context = this;
+    private final String URL = "https://laborious-band.000webhostapp.com";
 
     String[] arr1 = {"NextBike", "Parking place", "Rental spot", "Shop and repair station", "Interesting places"};
 
-    private TextWatcher mTextWatcher  = new TextWatcher() {
+    private TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
@@ -57,10 +56,9 @@ public class SendMessage extends AppCompatActivity {
 
     private void checkFieldsForEmptyValues() {
         MessageS = (Button) findViewById(R.id.send);
-        if(AddressBox.getText().toString().length() < 10 || MessageBox.getText().toString().length() < 10 ){
+        if (AddressBox.getText().toString().length() < 10 || MessageBox.getText().toString().length() < 10) {
             MessageS.setEnabled(false);
-        }
-        else {
+        } else {
             MessageS.setEnabled(true);
         }
     }
@@ -80,11 +78,11 @@ public class SendMessage extends AppCompatActivity {
         MessageBox = (EditText) findViewById(R.id.MessageEt);
         AddressBox.addTextChangedListener(mTextWatcher);
         MessageBox.addTextChangedListener(mTextWatcher);
-        GoTo = (Button)findViewById(R.id.goTo);
+        GoTo = (Button) findViewById(R.id.goTo);
         GoTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://laborious-band.000webhostapp.com")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL)));
             }
         });
         checkFieldsForEmptyValues();
@@ -141,20 +139,45 @@ public class SendMessage extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        final EditText address = (EditText) findViewById(R.id.AddressOption);
+        final EditText message = (EditText) findViewById(R.id.MessageEt);
+        final String addr = address.getText().toString();
+        final String mes = message.getText().toString();
+        outState.putString("addr", addr);
+        outState.putString("mes", mes);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        final EditText address = (EditText) findViewById(R.id.AddressOption);
+        final EditText message = (EditText) findViewById(R.id.MessageEt);
+
+        String addr = savedInstanceState.getString("addr");
+        String mes = savedInstanceState.getString("mes");
+
+        address.setText(addr);
+        message.setText(mes);
+
     }
 }

@@ -44,6 +44,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlGeometry;
 import com.google.maps.android.kml.KmlLayer;
@@ -55,8 +57,10 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,6 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Marker> mSpots = new ArrayList<>();
     List<Marker> mParking = new ArrayList<>();
     List<Marker> mShopsRepair = new ArrayList<>();
+    List<Marker> mPlaces = new ArrayList<>();
+    HashMap<String, LatLng> map = new HashMap<>();
     private List<Place> respondList;
     private KmlLayer layer;
     private GoogleMap mMap;
@@ -230,15 +236,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private List<String> coords(List<Marker> markers){
-        List<String> latLngs = new ArrayList<>();
-        for(Marker m : markers){
-            latLngs.add(m.getPosition().toString());
-        }
-        return latLngs;
-    }
-
-
     private void SendEmail() {
         Intent Email = new Intent(Intent.ACTION_SEND);
         Email.setType("text/email");
@@ -262,6 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         VisibleOrNot(mNextBike, "NextBike");
         VisibleOrNot(mRental, "Rental");
         VisibleOrNot(mParking, "Parking");
+        VisibleOrNot(mPlaces, "Spring Well");
     }
 
     private void VisibleOrNot(List<Marker> mSpots, String spots) {
@@ -310,6 +308,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) throws ClassCastException {
         mMap = googleMap;
+        int i =0;
+        KmlLayer lr;
+
+        try {
+            lr = new KmlLayer(mMap, R.raw.sss, getApplicationContext());
+            lr.addLayerToMap();
+
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
@@ -320,6 +330,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         try {
             layer = new KmlLayer(mMap, R.raw.lviv_b, getApplicationContext());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -328,13 +339,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (KmlPlacemark p : c1.getPlacemarks()) {
                     KmlGeometry g = p.getGeometry();
                     if (p.getProperty("name").equals("Rental")) {
-                        mRental.add( createKMLMarker( g.getGeometryObject().toString(), "rental place", R.drawable.rental ));
+                        mRental.add(createKMLMarker(g.getGeometryObject().toString(), "rental place", R.drawable.rental));
                     } else if (p.getProperty("name").equals("NextBike")) {
-                        mNextBike.add( createKMLMarker( g.getGeometryObject().toString(), "nextBike", R.drawable.nb ));
+                        mNextBike.add(createKMLMarker(g.getGeometryObject().toString(), "nextBike", R.drawable.nb));
                     } else if (p.getProperty("name").equals("P")) {
-                        mParking.add( createKMLMarker( g.getGeometryObject().toString(), null, R.drawable.bicycle ));
+                        mParking.add(createKMLMarker(g.getGeometryObject().toString(), null, R.drawable.bicycle));
                     } else if (p.getProperty("name").equals("Bike Spot")) {
-                        mSpots.add( createKMLMarker( g.getGeometryObject().toString(), "nextBike", R.drawable.star ));
+                        mSpots.add(createKMLMarker(g.getGeometryObject().toString(), "nextBike", R.drawable.star));
+                    } else if (p.getProperty("name").equals("Spring Well")) {
+                        mPlaces.add(createKMLMarker(g.getGeometryObject().toString(), null, R.drawable.drop));
                     }
                 }
             }
@@ -342,10 +355,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Marker createKMLMarker(String s, String nextBike, int nb) {
-      String [] ls;
+        String[] ls;
         Marker marker;
-        ls = s.substring(10, s.length()-1).split(",");
-       marker = mMap.addMarker(new MarkerOptions()
+        ls = s.substring(10, s.length() - 1).split(",");
+        marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                 .title(nextBike)
                 .icon(BitmapDescriptorFactory.fromResource(nb))

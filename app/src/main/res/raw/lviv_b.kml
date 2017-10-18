@@ -177,7 +177,7 @@
     </StyleMap>
     <Style id="line-009D57-3131-normal">
       <LineStyle>
-        <color>ff579d00</color>
+        <color>ff79d005</color>
         <width>3.131</width>
       </LineStyle>
     </Style>
@@ -2253,9 +2253,9 @@
       </Placemark>
     </Folder>
     <Folder>
-      <name>Useful spots | Корисні точки</name>
+      <name>Useful spots</name>
       <Placemark>
-        <name>Spring Well | Джерело</name>
+        <name>Spring Well</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
@@ -2264,7 +2264,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Spring Well | Джерело</name>
+        <name>Spring Well</name>
         <styleUrl>#icon-503-DB4436-nodesc</styleUrl>
         <Point>
           <coordinates>
