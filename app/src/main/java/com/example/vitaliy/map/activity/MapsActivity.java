@@ -43,6 +43,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlGeometry;
 import com.google.maps.android.kml.KmlLayer;
@@ -54,7 +56,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -80,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Marker> mParking = new ArrayList<>();
     List<Marker> mShopsRepair = new ArrayList<>();
     List<Marker> mPlaces = new ArrayList<>();
+    List<List<LatLng>> routes = new ArrayList<>();
     private List<Place> respondList;
     private KmlLayer layer;
     private GoogleMap mMap;
@@ -115,6 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
 
     private void onMapSearch() {
         searchView =  findViewById(R.id.simpleSearchView);
@@ -303,18 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) throws ClassCastException {
         mMap = googleMap;
-        int i = 0;
-        KmlLayer lr;
-
-        try {
-            lr = new KmlLayer(mMap, R.raw.sss, getApplicationContext());
-            lr.addLayerToMap();
-
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<LatLng> tempList = new ArrayList<>();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
@@ -343,9 +336,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mSpots.add(createKMLMarker(g.getGeometryObject().toString(), "nextBike", R.drawable.star));
                     } else if (p.getProperty("name").equals("Spring Well")) {
                         mPlaces.add(createKMLMarker(g.getGeometryObject().toString(), null, R.drawable.drop));
+                    } else if(g.getGeometryType().equals("LineString")){
+                        tempList.addAll((Collection <? extends LatLng>) g.getGeometryObject());
+                        routes.add(tempList);
                     }
                 }
             }
+        }
+        drawRoute(routes);
+    }
+
+    private void drawRoute(List<List<LatLng>> latlingsList){
+        ArrayList<PolylineOptions> polylines = new ArrayList<>();
+        for(int i = 0; i < polylines.size(); i++){
+            for(List<LatLng> l : latlingsList) {
+                polylines.get(i).addAll(l);
+                polylines.get(i).width(5).color(R.color.colorGreen);
+            }
+        }
+        for(PolylineOptions po : polylines){
+            mMap.addPolyline(po);
         }
     }
 
