@@ -30,7 +30,6 @@ import com.example.vitaliy.map.paths.PathActivity;
 import com.example.vitaliy.map.rest.ApiClient;
 import com.example.vitaliy.map.rest.ApiInterface;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -44,8 +43,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlGeometry;
 import com.google.maps.android.kml.KmlLayer;
@@ -57,10 +54,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,7 +80,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Marker> mParking = new ArrayList<>();
     List<Marker> mShopsRepair = new ArrayList<>();
     List<Marker> mPlaces = new ArrayList<>();
-    HashMap<String, LatLng> map = new HashMap<>();
     private List<Place> respondList;
     private KmlLayer layer;
     private GoogleMap mMap;
@@ -123,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void onMapSearch() {
-        searchView = (SearchView) findViewById(R.id.simpleSearchView);
+        searchView =  findViewById(R.id.simpleSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -195,10 +189,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void Menu() {
         arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
-        final FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fab_arc_menu_Email);
-        final FloatingActionButton fabMessage = (FloatingActionButton) findViewById(R.id.fab_arc_menu_info);
-        final FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fab_arc_menu_map);
-        final FloatingActionButton fabsm = (FloatingActionButton) findViewById(R.id.fab_arc_menu_route);
+        final FloatingActionButton fabEmail =  findViewById(R.id.fab_arc_menu_Email);
+        final FloatingActionButton fabMessage =  findViewById(R.id.fab_arc_menu_info);
+        final FloatingActionButton fabMap =  findViewById(R.id.fab_arc_menu_map);
+        final FloatingActionButton fabsm =  findViewById(R.id.fab_arc_menu_route);
         arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
 
             @Override
@@ -280,6 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(ls[0]), Double.parseDouble(ls[1])))
                         .title(places.get(i).getName())
+                        .snippet(places.get(i).getDetail().get(0).getPhone())
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.shop)));
                 mShopsRepair.add(marker);
             }
@@ -308,7 +303,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) throws ClassCastException {
         mMap = googleMap;
-        int i =0;
+        int i = 0;
         KmlLayer lr;
 
         try {
@@ -434,19 +429,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-    private boolean CheckGooglePlayServices() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(this);
-        if (result != ConnectionResult.SUCCESS) {
-            if (googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(this, result, 0);
-            }
-            return false;
-        }
-        return true;
-
-    }
-
-
 }

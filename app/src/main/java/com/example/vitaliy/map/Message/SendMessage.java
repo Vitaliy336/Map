@@ -162,8 +162,10 @@ public class SendMessage extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         final EditText address = (EditText) findViewById(R.id.AddressOption);
         final EditText message = (EditText) findViewById(R.id.MessageEt);
+
         final String addr = address.getText().toString();
         final String mes = message.getText().toString();
+
         outState.putString("addr", addr);
         outState.putString("mes", mes);
     }

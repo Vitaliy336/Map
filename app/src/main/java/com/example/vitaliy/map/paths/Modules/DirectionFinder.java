@@ -25,7 +25,6 @@ public class DirectionFinder {
     private static final String DIRECTION_URL_API = "https://maps.googleapis.com/maps/api/directions/json?";
     private static final String GOOGLE_API_KEY = "AIzaSyAzMyeFRQBQC4owuhKgIZxHAuPdHWeeHk8";
     private com.example.vitaliy.map.paths.Modules.DirectionFinderListener listener;
-    private String mode = "bicycling";
     private String origin;
     private String destination;
 
