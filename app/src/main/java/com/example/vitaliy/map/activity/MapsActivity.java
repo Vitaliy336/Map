@@ -63,6 +63,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.lines;
+import static android.os.Build.VERSION_CODES.M;
 import static com.example.vitaliy.map.R.layout.activity_maps;
 import static com.example.vitaliy.map.R.xml.prefs;
 
@@ -109,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Fab Menu
         Menu();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= M) {
             checkLocationPermission();
         }
 
@@ -308,6 +310,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) throws ClassCastException {
         mMap = googleMap;
         List<LatLng> tempList = new ArrayList<>();
+        try {
+            KmlLayer layer1 = new KmlLayer(mMap, R.raw.sss, getApplicationContext());
+            layer1.addLayerToMap();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
@@ -347,16 +357,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void drawRoute(List<List<LatLng>> latlingsList){
-        ArrayList<PolylineOptions> polylines = new ArrayList<>();
-        for(int i = 0; i < polylines.size(); i++){
-            for(List<LatLng> l : latlingsList) {
-                polylines.get(i).addAll(l);
-                polylines.get(i).width(5).color(R.color.colorGreen);
-            }
-        }
-        for(PolylineOptions po : polylines){
-            mMap.addPolyline(po);
-        }
     }
 
     private Marker createKMLMarker(String s, String nextBike, int nb) {
